@@ -1,0 +1,7 @@
+# Python
+venv/
+__pycache__/
+
+# Custom
+.idea/
+.DS_Store
