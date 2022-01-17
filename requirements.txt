@@ -1,4 +1,6 @@
-fastapi
-uvicorn
-pydantic
-numpy
+fastapi==0.71.0
+uvicorn==0.17.0
+pydantic==1.9.0
+numpy==1.21.5
+pytest==6.2.5
+requests==2.27.1

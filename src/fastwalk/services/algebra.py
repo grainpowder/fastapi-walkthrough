@@ -8,9 +8,7 @@ def is_row_count_valid(matrix: Matrix):
 
 def are_columns_valid(matrix: Matrix):
     for row in matrix.values:
-        is_col_count_invalid = len(row) != matrix.col_count
-        is_element_null = any([element is None for element in row])
-        if is_col_count_invalid or is_element_null:
+        if len(row) != matrix.col_count:
             return False
     return True
 

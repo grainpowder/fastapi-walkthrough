@@ -3,7 +3,12 @@ from fastapi import FastAPI
 
 from fastwalk.configs import router_config
 
-app = FastAPI(title="FastWalk", version="0.1.1")
+app = FastAPI(
+    title="FastWalk",
+    description="Simple API to try out functionality described in FastAPI tutorial",
+    version="0.1.1"
+    # More application metadata specification options can be found at https://fastapi.tiangolo.com/tutorial/metadata/
+)
 
 app.include_router(router_config.router)
 

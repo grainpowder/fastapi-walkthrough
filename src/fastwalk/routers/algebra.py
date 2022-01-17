@@ -30,12 +30,12 @@ async def call_calculate_determinant(
     if not is_row_count_valid(matrix):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"row_count({matrix.row_count}) doesn't match length of values({len(matrix.values)})"
+            detail=f"row_count({matrix.row_count}) does not match length of values({len(matrix.values)})"
         )
     elif not are_columns_valid(matrix):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Number of elements in each of rows are not same or one of elements is empty"
+            detail="Number of elements in each of rows are not same"
         )
     elif matrix.row_count != matrix.col_count:
         raise HTTPException(
