@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, HTTPException, status
 
 from fastwalk.services.algebra import *
 
@@ -8,6 +8,7 @@ router = APIRouter(prefix=ROUTER_PREFIX, tags=["algebra"])
 
 @router.post(
     path="/determinant",
+    status_code=status.HTTP_200_OK,
     summary="Calculate determinant of a matrix",
     response_description="Determinant of input matrix"
 )
@@ -26,9 +27,19 @@ async def call_calculate_determinant(
 
     * matrix : Square matrix whose determinant will be calculated
     """
-    if is_matrix_valid(matrix):
-        # TODO : make custom error message
-        pass
-    elif not matrix.row_count != matrix.col_count:
-        pass
+    if not is_row_count_valid(matrix):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"row_count({matrix.row_count}) doesn't match length of values({len(matrix.values)})"
+        )
+    elif not are_columns_valid(matrix):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Number of elements in each of rows are not same or one of elements is empty"
+        )
+    elif matrix.row_count != matrix.col_count:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Can't calculate determinant of non-square matrix of shape ({matrix.row_count}, {matrix.col_count})"
+        )
     return calculate_determinant(matrix)

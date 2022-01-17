@@ -15,10 +15,6 @@ def are_columns_valid(matrix: Matrix):
     return True
 
 
-def is_matrix_valid(matrix: Matrix):
-    return is_row_count_valid(matrix) and are_columns_valid(matrix)
-
-
 def calculate_determinant(matrix: Matrix) -> float:
     matrix_array = np.array(matrix.values)
     return np.linalg.det(matrix_array)

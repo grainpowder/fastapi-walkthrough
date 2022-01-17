@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Path, Query
+from fastapi import APIRouter, Path, Query, HTTPException, status
 
 from fastwalk.services.arithmetic import *
 
@@ -8,8 +8,9 @@ router = APIRouter(prefix=ROUTER_PREFIX, tags=["arithmetic"])
 
 @router.get(
     path="/plus-int/{a}/{b}",
+    status_code=status.HTTP_200_OK,
     summary="Simple plus operation on integers",
-    response_description="String that states 'a plus b is a + b'",
+    response_description="String that states 'a plus b is result'"
 )
 async def add_integers(a: int, b: int):
     """
@@ -26,7 +27,9 @@ async def add_integers(a: int, b: int):
 
 @router.get(
     path="/{operator}/{data_type}",
-    summary="Any arithmetic operations on int or float"
+    status_code=status.HTTP_200_OK,
+    summary="Any arithmetic operations on int or float",
+    response_description="String that states 'a operation b is result'"
 )
 async def call_operate_anything(
         operator: ArithmeticOperator,
@@ -44,9 +47,14 @@ async def call_operate_anything(
     - Otherwise(ex. use value as a parameter of a query or certain operation), use query parameters.
     """
     if type(a) != type(b):
-        # TODO : raise custom error to deliver specific message
-        pass
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Type of two operands are not same: {type(a)} and {type(b)}"
+        )
     elif (isinstance(a, int) and data_type == OperandDataType.FLOAT) or \
             (isinstance(a, float) and data_type == OperandDataType.INTEGER):
-        pass
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Type of operand and input data_type does not correspond: {type(a)} and {data_type}"
+        )
     return await operate_anything(operator, data_type, a, b)
