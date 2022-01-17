@@ -13,7 +13,8 @@ router = APIRouter(prefix=ROUTER_PREFIX, tags=["arithmetic"])
 )
 async def add_integers(a: int, b: int):
     """
-    You can add detailed description on this endpoint in markdown format to be displayed in swagger.
+    Detailed **description**(not summary) on the endpoint can be added in markdown format within docstring.
+
     As type of a and b is specified, Pydantic will validate the type of input that client has passed.
     If type of input is invalid, response will be 422 error: Unprocessable Entity
 
@@ -35,7 +36,7 @@ async def call_operate_anything(
 ):
     """
     Document says: function parameters that are not part of the path parameters are understood as query parameters.
-    Of course, there are ways to tell FastAPI explicitly that a parameter is path variable or query parameter.
+    **However, prefer telling FastAPI explicitly whether a parameter is path variable or query parameter.**
     Set default value of the method as an instance of Path or Query class.
 
     However, when to use which? Medium post "When Should You Use Path Variable and Query Parameter?" says:
